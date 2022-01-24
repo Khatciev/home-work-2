@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
-type User = { id: number; login: string; name: string; avatar_url: string; location: string; public_repos: number; twitter_username: string | null; bio: string; followers: number; following: number; html_url: string; };
-
+type User = {
+  id: number;
+  login: string;
+  name: string;
+  avatar_url: string;
+  location: string;
+  public_repos: number;
+  twitter_username: string | null;
+  bio: string;
+  followers: number;
+  following: number;
+  html_url: string;
+};
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>();
-  const [search, setSearch] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  // если ты по умолчанию передаешь "" в стейт, то можно не писать явно string
+  // так и для других типов данных. если нет значения по умолчанию, тогда указывай тип
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
+    setSearch(e.target.value);
   };
 
   const loadUser = async (name: string) => {
@@ -22,10 +35,10 @@ const App: React.FC = () => {
         setError(data.message);
       }
       setUser(data);
-      console.log(user);
-      setLoading(false);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
